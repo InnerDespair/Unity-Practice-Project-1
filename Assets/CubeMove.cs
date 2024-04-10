@@ -10,6 +10,10 @@ public class CubeMove : MonoBehaviour{
     public TMP_Text scoreCounter;
     public TMP_Text winMessage;
     public GameObject sphere;
+    public GameObject stick;
+    public GameObject skeleCollider;
+    public Animator skeleAnim;
+    public UnityEngine.AI.NavMeshAgent skeleNav;
     public int score = 0;
     private float timer = 0f;
     private bool countdownActive = false;
@@ -17,13 +21,19 @@ public class CubeMove : MonoBehaviour{
     private void OnTriggerEnter(Collider other){
         //Debug.Log(score);
 
-        float newX = Random.Range(-31, 11);
-        float newZ = Random.Range(-26, 17);
+        if(other.gameObject.name == "Attack_Zone"){
+            skeleAnim.SetTrigger("Attack");
+        
+        }else if(other.gameObject.name == "Sphere"){
 
-        score += 1;
-        scoreCounter.text = "Score: " + score;
+            float newX = Random.Range(-31, 11);
+            float newZ = Random.Range(-26, 17);
 
-        sphere.transform.position = new Vector3(newX, 2, newZ);
+            score += 1;
+            scoreCounter.text = "Score: " + score;
+
+            sphere.transform.position = new Vector3(newX, 2, newZ);
+            }
 
     }
 
@@ -40,6 +50,10 @@ public class CubeMove : MonoBehaviour{
         float vertMove = Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
 
         transform.position += new Vector3(horizMove, 0, vertMove);
+
+        //stick change position based on input?
+        //array of 4 positions
+        //stick.transform.position = transform.position + new Vector3(2 , 0, 0);
 
 
         if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale == 1){
@@ -76,4 +90,5 @@ public class CubeMove : MonoBehaviour{
 
     }
 
+    
 }
